@@ -2,8 +2,9 @@
 
 Following installation instruction are based on the official documentation at https://clang.llvm.org/docs/LibASTMatchersTutorial.html
 
-###### getting clang llmv ninja cmake and installing requirements
+###### getting clang llvm ninja cmake and installing requirements
 
+```
 mkdir ~/clang-llvm && cd ~/clang-llvm
 git clone http://llvm.org/git/llvm.git
 cd llvm/tools
@@ -25,9 +26,11 @@ git checkout next
 ./bootstrap
 make
 sudo make install
+```
 
 ###### building clang
 
+```
 cd ~/clang-llvm
 mkdir build && cd build
 cmake -G Ninja ../llvm -DLLVM_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release # Enable tests; default is off. to reduce build time use release flag
@@ -35,28 +38,36 @@ ninja
 ninja check       # Test LLVM only.
 ninja clang-test  # Test Clang only.
 ninja install
-
+```
 
 ## SetUP
 ###### making clang it's own compiler
 
-cd ~/clang-llvm/build
+
+```cd ~/clang-llvm/build
 ccmake ../llvm
+```
 
-on the GUI set CMAKE_CXX_COMPILER to place pointed by which clang++ also point respective path for CMAKE_C_COMPILER
+on the GUI set ```CMAKE_CXX_COMPILER``` to place pointed by ```which clang++``` also point respective path for ```CMAKE_C_COMPILER```
 
-press c to configure and g to generate after setting the changes and run the command ninja
+press ```c``` to configure and ```g``` to generate after setting the changes and run the command ```ninja```
 
 ###### registering your tool's directory in clang
 
+```
 cd ~/clang-llvm/llvm/tools/clang
 mkdir tools/extra/function-declaration #set YOUR_DIRETORY_NAME in place of function-declaration
 echo 'add_subdirectory(function-declaration)' >> tools/extra/CMakeLists.txt
+```
 
 ###### Making CMakeLists for your tool's directory
+
+```
 nano ~/clang-llvm/llvm/tools/clang/tools/extra/function-declaration/CMakeLists.txt
+```
 and copy the following into the text file
 
+```
 set(LLVM_LINK_COMPONENTS support)
 
 add_clang_executable(function-declaration
@@ -67,17 +78,18 @@ target_link_libraries(function-declaration PRIVATE
   clangBasic
   clangASTMatchers
   )
+ ```
 
 this will link required libraries and add your function to clang's executable.
 
 ## usage
-now make new file FunctionDeclarations.cpp in the same directory and implement the tool functionality you would want clang to use
+now make new file ```FunctionDeclarations.cpp``` in the same directory and implement the tool functionality you would want clang to use
 
-if any further changes are required reflect them in the respective CMakeLists.txt files
+if any further changes are required reflect them in the respective ```CMakeLists.txt``` files
 
-after changes are made run ninja command and
-go to build folder of clang-llvm to run the following command and compile any source file with the clang changes you have made, (the executable of tool you have made will be availed at ~/clang-llvm/build/bin/)
+after changes are made run ```ninja``` command and
+go to build folder of clang-llvm to run the following command and compile any source file with the clang changes you have made, (the executable of tool you have made will be availed at ```~/clang-llvm/build/bin/```)
 
 ###### compile a test file
-./bin/function-declaration test.cpp --
+```./bin/function-declaration test.cpp --```
 
