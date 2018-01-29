@@ -56,7 +56,7 @@ press ```c``` to configure and ```g``` to generate after setting the changes and
 
 ```
 cd ~/clang-llvm/llvm/tools/clang
-mkdir tools/extra/function-declaration #set YOUR_DIRETORY_NAME in place of function-declaration
+mkdir tools/extra/function-declaration #set YOUR_DIRECTORY_NAME in place of function-declaration
 echo 'add_subdirectory(function-declaration)' >> tools/extra/CMakeLists.txt
 ```
 
