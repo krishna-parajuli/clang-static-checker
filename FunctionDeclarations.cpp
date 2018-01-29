@@ -25,19 +25,27 @@ static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
 // A help message for this specific tool can be added afterwards.
 static cl::extrahelp MoreHelp("\ndetecta all the function declarations in a given source file");
 
+// matcher for 4th parameter in any function declarations
 DeclarationMatcher FuncMatcher =
-  functionDecl(hasParameter(2,parmVarDecl().bind("parameterDeclaration"))).bind("functionDeclaration");
+  functionDecl(hasParameter(3,parmVarDecl().bind("parameterDeclaration"))).bind("functionDeclaration");
 
 
 class FuncPrinter : public MatchFinder::MatchCallback {
 public :
   virtual void run(const MatchFinder::MatchResult &Result) {
     ASTContext *Context = Result.Context;
+    const FunctionDecl *funcName = Result.Nodes.getNodeAs<FunctionDecl>("functionDeclaration");
     const VarDecl *ParmVar = Result.Nodes.getNodeAs<VarDecl>("parameterDeclaration");
+    // filter AST nodes from header and include files
     if (!ParmVar || !Context->getSourceManager().isWrittenInMainFile(ParmVar->getLocStart()))
       return;
-    ParmVar->dump();
+    // generate warning now
+    DiagnosticsEngine &DE = Context->getDiagnostics();
+    const auto ID = DE.getCustomDiagID(DiagnosticsEngine::Warning,
+                                   "function declaration %0 has more than three parameters");
 
+    DiagnosticBuilder DB = DE.Report(ParmVar->getLocStart(), ID);
+    DB.AddString(funcName->getName());//get function name in warning
   }
 };
 
