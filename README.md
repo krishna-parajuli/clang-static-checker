@@ -83,7 +83,7 @@ target_link_libraries(function-declaration PRIVATE
 this will link required libraries and add your function to clang's executable.
 
 ## usage
-now make new file ```FunctionDeclarations.cpp``` in the same directory and implement the tool functionality you would want clang to use
+now make new file ```FunctionDeclarations.cpp``` in the same directory and implement the tool functionality you would want clang to use, make sure subdirectory is <a href=#registering-your-tools-directory-in-clang>registered</a>
 
 if any further changes are required reflect them in the respective ```CMakeLists.txt``` files
 
