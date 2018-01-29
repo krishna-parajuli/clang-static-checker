@@ -6,6 +6,7 @@
 #include "llvm/Support/CommandLine.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
+#include "clang/AST/ASTContext.h"
 
 using namespace clang;
 using namespace clang::ast_matchers;
@@ -31,7 +32,10 @@ DeclarationMatcher FuncMatcher =
 class FuncPrinter : public MatchFinder::MatchCallback {
 public :
   virtual void run(const MatchFinder::MatchResult &Result) {
+    ASTContext *Context = Result.Context;
     const VarDecl *ParmVar = Result.Nodes.getNodeAs<VarDecl>("parameterDeclaration");
+    if (!ParmVar || !Context->getSourceManager().isWrittenInMainFile(ParmVar->getLocStart()))
+      return;
     ParmVar->dump();
 
   }
