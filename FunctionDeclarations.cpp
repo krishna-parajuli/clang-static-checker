@@ -25,14 +25,15 @@ static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
 static cl::extrahelp MoreHelp("\ndetecta all the function declarations in a given source file");
 
 DeclarationMatcher FuncMatcher =
-  functionDecl().bind("functionDeclaration");
+  functionDecl(hasParameter(2,parmVarDecl().bind("parameterDeclaration"))).bind("functionDeclaration");
 
 
 class FuncPrinter : public MatchFinder::MatchCallback {
 public :
   virtual void run(const MatchFinder::MatchResult &Result) {
-    if (const FunctionDecl *FS = Result.Nodes.getNodeAs<clang::FunctionDecl>("functionDeclaration"))
-      FS->dump();
+    const VarDecl *ParmVar = Result.Nodes.getNodeAs<VarDecl>("parameterDeclaration");
+    ParmVar->dump();
+
   }
 };
 
