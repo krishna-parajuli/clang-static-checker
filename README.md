@@ -1,3 +1,9 @@
+### tl;&dr
+```./bin/function-declaration test.cpp --``` works in ubuntu 16.04 
+
+pass any ```source file``` in place of ```test.cpp``` to statically analyze it  
+
+
 ## Installation
 
 Following installation instruction are based on the official documentation at https://clang.llvm.org/docs/LibASTMatchersTutorial.html
