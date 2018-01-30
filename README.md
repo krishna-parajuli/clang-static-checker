@@ -1,5 +1,7 @@
 ### tl;&dr
-```./bin/function-declaration test.cpp --``` works in ubuntu 16.04 
+once a clang build is generated,
+```cd  path/to/build/```
+```./bin/function-declaration path/to/test/file/test.cpp --``` works in 64-bit ubuntu 16.04 
 
 pass any ```source file``` in place of ```test.cpp``` to statically analyze it  
 
