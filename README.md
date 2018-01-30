@@ -5,6 +5,12 @@ once a clang build is generated,
 
 pass any ```source file``` in place of ```test.cpp``` to statically analyze it  
 
+### Screenshots
+![running the tool in an errornous file](clangScreenshotErrorneousFile1.png?raw=true "running tool on an errornous file")
+
+
+![running the tool in a working source file](clangScreenShot2.png?raw=true "running tool on a working source file")
+
 
 ## Installation
 
